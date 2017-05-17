@@ -20,15 +20,20 @@ namespace IoT_Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<DateTime>("DeviceTime");
 
-                    b.Property<byte>("Humidity");
+                    b.Property<byte?>("Humidity")
+                        .IsRequired();
 
-                    b.Property<int>("SoilMoisture");
+                    b.Property<int?>("SoilMoisture")
+                        .IsRequired();
 
-                    b.Property<int>("Temperature");
+                    b.Property<int?>("Temperature")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
