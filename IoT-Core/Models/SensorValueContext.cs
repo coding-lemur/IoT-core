@@ -11,6 +11,15 @@ namespace IoT_Core.Models
     {
         public DbSet<SensorValues> SensorValues { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SensorValues>()
+                .Property(sv => sv.Created)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Filename=values.db");
