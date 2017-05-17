@@ -8,7 +8,7 @@ using IoT_Core.Models;
 namespace IoT_Core.Migrations
 {
     [DbContext(typeof(SensorValueContext))]
-    [Migration("20170517132838_MyFirstMigration")]
+    [Migration("20170517134458_MyFirstMigration")]
     partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace IoT_Core.Migrations
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasDefaultValueSql("datetime('now','localtime')");
 
                     b.Property<DateTime>("DeviceTime");
 
