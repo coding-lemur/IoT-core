@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using IoT_Core.Models;
+using IoT_Core.Middelware;
 
 namespace IoT_Core
 {
@@ -39,6 +40,7 @@ namespace IoT_Core
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseSecretAuthentication();
             app.UseMvc();
             
             // create database
