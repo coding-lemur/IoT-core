@@ -14,7 +14,7 @@ namespace IoT_Core.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')"),
                     DeviceTime = table.Column<DateTime>(nullable: false),
                     Humidity = table.Column<byte>(nullable: false),
                     SoilMoisture = table.Column<int>(nullable: false),

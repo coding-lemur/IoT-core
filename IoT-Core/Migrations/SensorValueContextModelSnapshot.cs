@@ -22,7 +22,7 @@ namespace IoT_Core.Migrations
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasDefaultValueSql("datetime('now','localtime')");
 
                     b.Property<DateTime>("DeviceTime");
 

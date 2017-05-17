@@ -15,7 +15,7 @@ namespace IoT_Core.Models
         {
             modelBuilder.Entity<SensorValues>()
                 .Property(sv => sv.Created)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValueSql("datetime('now','localtime')");
 
             base.OnModelCreating(modelBuilder);
         }
