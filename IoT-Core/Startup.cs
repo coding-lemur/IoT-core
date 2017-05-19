@@ -40,7 +40,11 @@ namespace IoT_Core
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseSecretAuthentication();
+            if (env.IsProduction())
+            {
+                app.UseSecretAuthentication();
+            }
+
             app.UseMvc();
             
             // create database
