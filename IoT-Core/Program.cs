@@ -17,6 +17,7 @@ namespace IoT_Core
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseUrls("http://localhost:3002/")
                 .UseApplicationInsights()
                 .Build();
 
