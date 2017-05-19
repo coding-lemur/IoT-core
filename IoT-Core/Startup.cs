@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using IoT_Core.Models;
 using IoT_Core.Middelware;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace IoT_Core
 {
@@ -39,6 +40,12 @@ namespace IoT_Core
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            // for reverse-proxy support
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             if (env.IsProduction())
             {
