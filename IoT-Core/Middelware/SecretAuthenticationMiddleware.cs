@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace IoT_Core.Middelware
@@ -25,7 +26,7 @@ namespace IoT_Core.Middelware
             if (secret != "ESP8266")
             {
                 // revoke request
-                context.Response.StatusCode = 400;
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return;
             }
 
