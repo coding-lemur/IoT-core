@@ -7,7 +7,7 @@ using IoT_Core.Models;
 
 namespace IoT_Core.Migrations
 {
-    [DbContext(typeof(SensorValueContext))]
+    [DbContext(typeof(DataContext))]
     partial class SensorValueContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
