@@ -8,7 +8,6 @@ namespace IoT_Core.Models
 {
     public class SensorValues
     {
-        [Key]
         public int Id { get; set; }
 
         public DateTime Created { get; set; }
