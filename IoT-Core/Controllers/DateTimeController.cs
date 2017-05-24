@@ -13,13 +13,7 @@ namespace IoT_Core.Controllers
         [HttpGet]
         public RtcDateTime Get()
         {
-            DateTime now = DateTime.Now;
-
-            return new RtcDateTime
-            {
-                Date = now.ToString("MMM dd yyyy"),
-                Time = now.ToString("HH:mm:ss")
-            };
+            return new RtcDateTime(DateTime.Now);
         }
     }
 }
