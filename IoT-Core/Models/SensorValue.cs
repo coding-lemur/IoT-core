@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace IoT_Core.Models
 {
-    public class SensorValues
+    public class SensorValue
     {
         public int Id { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime Date { get; set; }
 
         [Required]
-        public DateTime DeviceTime { get; set; }
+        public DateTime DeviceDate { get; set; }
 
         [Required]
-        public int? Temperature { get; set; }
+        public float? Temperature { get; set; }
 
         [Required]
-        public byte? Humidity { get; set; }
+        public float? Humidity { get; set; }
 
         [Required]
         public int? SoilMoisture { get; set; }

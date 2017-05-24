@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using IoT_Core.Models;
 using IoT_Core.Middelware;
 using Microsoft.AspNetCore.HttpOverrides;
+using IoT_Core.Services;
 
 namespace IoT_Core
 {
@@ -31,8 +32,9 @@ namespace IoT_Core
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddEntityFrameworkSqlite()
-                .AddDbContext<SensorValueContext>();
+                .AddDbContext<DataContext>();
             services.AddMvc();
+            services.AddTransient<IWateringService, WateringService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,13 +54,22 @@ namespace IoT_Core
                 app.UseSecretAuthentication();
             }
 
-            app.UseMvc();
-            
-            // create database
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            app.UseMvc(routes =>
             {
-                var sensorValueContext = serviceScope.ServiceProvider.GetRequiredService<SensorValueContext>();
-                sensorValueContext.Database.EnsureCreated();
+                // default route
+                routes.MapRoute(
+                    name: "default",
+                    template: "api/{controller=Default}/{action=Get}/{id?}");
+            });
+            
+            if (env.IsDevelopment())
+            {
+                // create database
+                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                {
+                    var sensorValueContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
+                    sensorValueContext.Database.EnsureCreated();
+                }
             }
         }
     }

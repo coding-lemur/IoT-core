@@ -7,7 +7,7 @@ using IoT_Core.Models;
 
 namespace IoT_Core.Migrations
 {
-    [DbContext(typeof(SensorValueContext))]
+    [DbContext(typeof(DataContext))]
     [Migration("20170517134458_MyFirstMigration")]
     partial class MyFirstMigration
     {

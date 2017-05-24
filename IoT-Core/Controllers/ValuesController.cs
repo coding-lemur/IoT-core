@@ -4,24 +4,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IoT_Core.Models;
+using IoT_Core.Services;
 
 namespace IoT_Core.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private SensorValueContext _dbContext;
+        private DataContext _dataContext;
+        private IWateringService _wateringService;
 
-        public ValuesController(SensorValueContext dbContext)
+        public ValuesController(DataContext dataContext, IWateringService wateringService)
         {
-            this._dbContext = dbContext;
+            _dataContext = dataContext;
+            _wateringService = wateringService;
         }
 
         // GET api/values
         [HttpGet]
         public IActionResult Get()
         {
-            var results = _dbContext.SensorValues
+            var results = _dataContext.Sensors
                 .OrderBy(sv => sv.Id)
                 .ToList();
             return Ok(results);
@@ -31,7 +34,7 @@ namespace IoT_Core.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var sensorValues = _dbContext.SensorValues
+            var sensorValues = _dataContext.Sensors
                 .FirstOrDefault(value => value.Id == id);
 
             if (sensorValues == null)
@@ -44,17 +47,21 @@ namespace IoT_Core.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]SensorValues values)
+        public async Task<IActionResult> Post([FromBody]SensorValue sensors)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            _dbContext.SensorValues.Add(values);
-            await _dbContext.SaveChangesAsync();
+            // save sensor values
+            _dataContext.Sensors.Add(sensors);
 
-            return CreatedAtAction("Get", values.Id);
+            var wateringResult = _wateringService.CalculateMilliseconds(sensors);
+
+            await _dataContext.SaveChangesAsync();
+
+            return CreatedAtAction("Get", new { id = sensors.Id }, wateringResult);
         }
     }
 }

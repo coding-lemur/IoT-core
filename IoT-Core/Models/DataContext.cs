@@ -7,14 +7,20 @@ using JetBrains.Annotations;
 
 namespace IoT_Core.Models
 {
-    public class SensorValueContext : DbContext
+    public class DataContext : DbContext
     {
-        public DbSet<SensorValues> SensorValues { get; set; }
+        public DbSet<SensorValue> Sensors { get; set; }
+
+        public DbSet<WateringValue> Watering { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SensorValues>()
-                .Property(sv => sv.Created)
+            modelBuilder.Entity<SensorValue>()
+                .Property(s => s.Date)
+                .HasDefaultValueSql("datetime('now','localtime')");
+
+            modelBuilder.Entity<WateringValue>()
+                .Property(w => w.Date)
                 .HasDefaultValueSql("datetime('now','localtime')");
 
             base.OnModelCreating(modelBuilder);
@@ -22,7 +28,7 @@ namespace IoT_Core.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Filename=values.db");
+            optionsBuilder.UseSqlite("Filename=data.db");
         }
     }
 }
