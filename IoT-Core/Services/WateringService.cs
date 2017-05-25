@@ -15,7 +15,7 @@ namespace IoT_Core.Services
             _dataContext = dataContext;
         }
 
-        public WateringResult CalculateMilliseconds(SensorValue sensors)
+        public WateringResult CalculateMilliseconds(SensorValues sensors)
         {
             int milliseconds = 0;
 

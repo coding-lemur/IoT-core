@@ -8,6 +8,6 @@ namespace IoT_Core.Services
 {
     public interface IWateringService
     {
-        WateringResult CalculateMilliseconds(SensorValue sensors);
+        WateringResult CalculateMilliseconds(SensorValues sensors);
     }
 }

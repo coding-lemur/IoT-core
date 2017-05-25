@@ -47,21 +47,29 @@ namespace IoT_Core.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]SensorValue sensors)
+        public async Task<IActionResult> Post([FromBody]SensorsInput sensorsInput)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            // save sensor values
-            _dataContext.Sensors.Add(sensors);
+            var sensorValues = new SensorValues()
+            {
+                DeviceDate = DateTime.Now, // TODO change to real device time
+                Temperature = sensorsInput.Temperature.Value,
+                Humidity = sensorsInput.Humidity.Value,
+                SoilMoisture = sensorsInput.SoilMoisture.Value
+            };
 
-            var wateringResult = _wateringService.CalculateMilliseconds(sensors);
+            // save sensor values
+            _dataContext.Sensors.Add(sensorValues);
+
+            var wateringResult = _wateringService.CalculateMilliseconds(sensorValues);
 
             await _dataContext.SaveChangesAsync();
 
-            return CreatedAtAction("Get", new { id = sensors.Id }, wateringResult);
+            return CreatedAtAction("Get", new { id = sensorValues.Id }, wateringResult);
         }
     }
 }

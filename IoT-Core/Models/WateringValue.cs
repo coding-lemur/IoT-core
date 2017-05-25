@@ -13,6 +13,6 @@ namespace IoT_Core.Models
 
         public int Milliseconds { get; set; }
 
-        public SensorValue Sensors { get; set; }
+        public SensorValues Sensors { get; set; }
     }
 }
