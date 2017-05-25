@@ -9,13 +9,13 @@ namespace IoT_Core.Models
 {
     public class DataContext : DbContext
     {
-        public DbSet<SensorValue> Sensors { get; set; }
+        public DbSet<SensorValues> Sensors { get; set; }
 
         public DbSet<WateringValue> Watering { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SensorValue>()
+            modelBuilder.Entity<SensorValues>()
                 .Property(s => s.Date)
                 .HasDefaultValueSql("datetime('now','localtime')");
 
