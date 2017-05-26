@@ -12,6 +12,9 @@ namespace IoT_Core.Middelware
     /// </summary>
     public class SecretAuthenticationMiddleware
     {
+        private const string HEADER_KEY = "secret";
+        private const string SECRET_VALUE = "ESP8266";
+
         private readonly RequestDelegate _next;
 
         public SecretAuthenticationMiddleware(RequestDelegate next)
@@ -21,15 +24,22 @@ namespace IoT_Core.Middelware
 
         public async Task Invoke(HttpContext context)
         {
-            var secret = context.Request.Headers["secret"];
-
-            if (secret != "ESP8266")
+            if (!context.Request.Headers.ContainsKey(HEADER_KEY))
             {
                 // revoke request
                 context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return;
             }
 
+            var secret = context.Request.Headers[HEADER_KEY];
+            if (secret != SECRET_VALUE)
+            {
+                // revoke request
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return;
+            }
+
+            // accept request
             await _next.Invoke(context);
         }
     }
