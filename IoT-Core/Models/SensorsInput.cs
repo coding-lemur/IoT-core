@@ -8,7 +8,7 @@ namespace IoT_Core.Models
 {
     public class SensorsInput
     {
-        //public DateTime DeviceDate { get; set; }
+        //public int? DeviceTimestamp { get; set; }
 
         [Required]
         public float? Temperature { get; set; }

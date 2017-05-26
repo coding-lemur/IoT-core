@@ -56,7 +56,7 @@ namespace IoT_Core.Controllers
 
             var sensorValues = new SensorValues()
             {
-                DeviceDate = DateTime.Now, // TODO change to real device time
+                //DeviceTimestamp = sensorsInput.DeviceTimestamp, // TODO change to DateTime
                 Temperature = sensorsInput.Temperature.Value,
                 Humidity = sensorsInput.Humidity.Value,
                 SoilMoisture = sensorsInput.SoilMoisture.Value
