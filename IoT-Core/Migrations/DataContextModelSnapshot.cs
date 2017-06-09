@@ -24,8 +24,6 @@ namespace IoT_Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("datetime('now','localtime')");
 
-                    b.Property<int?>("DeviceTimestamp");
-
                     b.Property<float>("Humidity");
 
                     b.Property<int>("SoilMoisture");

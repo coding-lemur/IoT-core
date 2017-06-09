@@ -8,7 +8,7 @@ using IoT_Core.Models;
 namespace IoT_Core.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20170525183126_InitialCreate")]
+    [Migration("20170609194929_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,8 +24,6 @@ namespace IoT_Core.Migrations
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("datetime('now','localtime')");
-
-                    b.Property<int?>("DeviceTimestamp");
 
                     b.Property<float>("Humidity");
 
