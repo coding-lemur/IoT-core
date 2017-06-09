@@ -12,7 +12,7 @@ namespace IoT_Core.Models
 
         public DateTime Date { get; set; }
 
-        public int? DeviceTimestamp { get; set; }
+        //public int? DeviceTimestamp { get; set; }
 
         [Required]
         public float Temperature { get; set; }
