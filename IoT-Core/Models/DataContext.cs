@@ -13,6 +13,11 @@ namespace IoT_Core.Models
 
         public DbSet<WateringValue> Watering { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySql(@"Server = localhost; database = iot; uid = iot; pwd = zdGCUS5Fy9eJYY8F;");
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SensorValues>()
@@ -24,11 +29,6 @@ namespace IoT_Core.Models
                 .HasDefaultValueSql("datetime('now','localtime')");
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Filename=data.db");
         }
     }
 }
