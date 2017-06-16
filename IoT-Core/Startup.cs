@@ -49,7 +49,8 @@ namespace IoT_Core
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            if (env.IsProduction())
+            var enableAuthentication = Boolean.Parse(Configuration["EnableSecurtity"]);
+            if (enableAuthentication)
             {
                 app.UseSecretAuthentication();
             }
