@@ -8,11 +8,11 @@ namespace IoT_Core.Services
 {
     public class WateringService: IWateringService
     {
-        private DataContext _dataContext;
+        private IDataRepo _dataRepo;
 
-        public WateringService(DataContext dataContext)
+        public WateringService(IDataRepo dataRepo)
         {
-            _dataContext = dataContext;
+            _dataRepo = dataRepo;
         }
 
         public WateringResult CalculateMilliseconds(SensorValues sensors)
@@ -29,7 +29,7 @@ namespace IoT_Core.Services
                     Milliseconds = milliseconds,
                     Sensors = sensors
                 };
-                _dataContext.Watering.Add(watering);
+                //_dataContext.Watering.Add(watering);
             }
 
             var wateringResult = new WateringResult()
