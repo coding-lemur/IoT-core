@@ -31,10 +31,13 @@ namespace IoT_Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFrameworkSqlite()
-                .AddDbContext<DataContext>();
-            services.AddMvc();
+            services.AddOptions();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            services.AddTransient<IDataRepo, DataRepo>();
             services.AddTransient<IWateringService, WateringService>();
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,16 +65,6 @@ namespace IoT_Core
                     name: "default",
                     template: "api/{controller=Default}/{action=Get}/{id?}");
             });
-            
-            if (env.IsDevelopment())
-            {
-                // create database
-                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-                {
-                    var sensorValueContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
-                    sensorValueContext.Database.EnsureCreated();
-                }
-            }
         }
     }
 }

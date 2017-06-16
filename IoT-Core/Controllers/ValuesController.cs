@@ -11,32 +11,28 @@ namespace IoT_Core.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private DataContext _dataContext;
+        private IDataRepo _dataRepo;
         private IWateringService _wateringService;
 
-        public ValuesController(DataContext dataContext, IWateringService wateringService)
+        public ValuesController(IDataRepo dataRepo, IWateringService wateringService)
         {
-            _dataContext = dataContext;
+            _dataRepo = dataRepo;
             _wateringService = wateringService;
         }
 
         // GET api/values
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var results = _dataContext.Sensors
-                .OrderBy(sv => sv.Id)
-                .ToList();
+            var results = await _dataRepo.GetValuesAsync();
             return Ok(results);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
-            var sensorValues = _dataContext.Sensors
-                .FirstOrDefault(value => value.Id == id);
-
+            var sensorValues = await _dataRepo.GetValueByIdAsync(id);
             if (sensorValues == null)
             {
                 return NotFound();
@@ -63,11 +59,9 @@ namespace IoT_Core.Controllers
             };
 
             // save sensor values
-            _dataContext.Sensors.Add(sensorValues);
+            _dataRepo.AddValuesAsync(sensorValues);
 
             var wateringResult = _wateringService.CalculateMilliseconds(sensorValues);
-
-            await _dataContext.SaveChangesAsync();
 
             return CreatedAtAction("Get", new { id = sensorValues.Id }, wateringResult);
         }
