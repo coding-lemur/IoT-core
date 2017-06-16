@@ -13,6 +13,7 @@ namespace IoT_Core.Services
     {
         private MongoClient _client;
         private IMongoDatabase _database;
+        private int _listLimit;
 
         public DataRepo(IOptions<AppSettings> optionsAccessor)
         {
@@ -20,6 +21,8 @@ namespace IoT_Core.Services
 
             _client = new MongoClient(appSettings.MongoDbConnection);
             _database = _client.GetDatabase(appSettings.MongoDbDatabaseName);
+
+            _listLimit = appSettings.ListLimit;
         }
 
         public async Task<SensorValues> AddValuesAsync(SensorValues sensors)
@@ -44,7 +47,7 @@ namespace IoT_Core.Services
         {
             var sensorsCollection = _database.GetCollection<SensorValues>("sensors");
             return await sensorsCollection.Find(new BsonDocument())
-                .Limit(100)
+                .Limit(_listLimit)
                 .ToListAsync();
         }
 
@@ -59,7 +62,7 @@ namespace IoT_Core.Services
         {
             var wateringCollection = _database.GetCollection<WateringValue>("watering");
             return await wateringCollection.Find(new BsonDocument())
-                .Limit(100)
+                .Limit(_listLimit)
                 .ToListAsync();
         }
     }
