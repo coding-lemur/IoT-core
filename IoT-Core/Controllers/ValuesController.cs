@@ -50,7 +50,7 @@ namespace IoT_Core.Controllers
                 return BadRequest();
             }
 
-            var sensorValues = new SensorValues()
+            var sensors = new SensorValues()
             {
                 //DeviceTimestamp = sensorsInput.DeviceTimestamp, // TODO change to DateTime
                 Temperature = sensorsInput.Temperature.Value,
@@ -59,11 +59,17 @@ namespace IoT_Core.Controllers
             };
 
             // save sensor values
-            _dataRepo.AddValuesAsync(sensorValues);
+            await _dataRepo.AddValuesAsync(sensors);
 
-            var wateringResult = _wateringService.CalculateMilliseconds(sensorValues);
+            var wateringResult = _wateringService.CalculateMilliseconds(sensors);
 
-            return CreatedAtAction("Get", new { id = sensorValues.Id }, wateringResult);
+            if (wateringResult.Milliseconds > 0)
+            {
+                var watering = new WateringValue(sensors, wateringResult.Milliseconds);
+                _dataRepo.AddWateringAsync(watering);
+            }
+
+            return CreatedAtAction("Get", new { id = sensors.Id }, wateringResult);
         }
     }
 }

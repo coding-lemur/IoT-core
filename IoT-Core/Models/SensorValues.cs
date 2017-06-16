@@ -23,6 +23,7 @@ namespace IoT_Core.Models
 
         public int SoilMoisture { get; set; }
 
+
         public SensorValues()
         {
             Date = DateTime.Now;

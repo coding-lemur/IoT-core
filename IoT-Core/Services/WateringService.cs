@@ -17,25 +17,14 @@ namespace IoT_Core.Services
 
         public WateringResult CalculateMilliseconds(SensorValues sensors)
         {
-            int milliseconds = 0;
+            var wateringResult = new WateringResult();
 
             if (sensors.SoilMoisture < 600)
             {
                 // watering
-                milliseconds = 3000;
-
-                var watering = new WateringValue()
-                {
-                    Milliseconds = milliseconds,
-                    Sensors = sensors
-                };
-                //_dataContext.Watering.Add(watering);
+                wateringResult.Milliseconds = 3000;
             }
 
-            var wateringResult = new WateringResult()
-            {
-                Milliseconds = milliseconds
-            };
             return wateringResult;
         }
     }
