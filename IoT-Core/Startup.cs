@@ -4,13 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using IoT_Core.Models;
 using IoT_Core.Middelware;
-using Microsoft.AspNetCore.HttpOverrides;
 using IoT_Core.Services;
+using IoT_Core.Services.Repositories;
 
 namespace IoT_Core
 {
@@ -34,7 +35,8 @@ namespace IoT_Core
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            services.AddTransient<IDataRepo, DataRepo>();
+            services.AddTransient<ISensorRepository, SensorRepository>();
+            services.AddTransient<IWateringRepository, WateringRepository>();
             services.AddTransient<IWateringService, WateringService>();
 
             services.AddMvc();
