@@ -9,7 +9,7 @@ namespace IoT_Core.Models
 {
     public class WateringValue
     {
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime Date { get; set; }
