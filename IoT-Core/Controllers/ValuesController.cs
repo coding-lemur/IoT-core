@@ -5,18 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IoT_Core.Models;
 using IoT_Core.Services;
+using IoT_Core.Services.Repositories;
 
 namespace IoT_Core.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private IDataRepo _dataRepo;
+        private ISensorRepository _sensorRepository;
+        private IWateringRepository _wateringRepository;
         private IWateringService _wateringService;
 
-        public ValuesController(IDataRepo dataRepo, IWateringService wateringService)
+        public ValuesController(ISensorRepository sensorRepository, IWateringRepository wateringRepository, IWateringService wateringService)
         {
-            _dataRepo = dataRepo;
+            _sensorRepository = sensorRepository;
+            _wateringRepository = wateringRepository;
             _wateringService = wateringService;
         }
 
@@ -24,7 +27,7 @@ namespace IoT_Core.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var results = await _dataRepo.GetValuesAsync();
+            var results = await _sensorRepository.GetSensorValuesAsync();
             return Ok(results);
         }
 
@@ -32,7 +35,7 @@ namespace IoT_Core.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var sensorValues = await _dataRepo.GetValueByIdAsync(id);
+            var sensorValues = await _sensorRepository.GetSensorValuesByIdAsync(id);
             if (sensorValues == null)
             {
                 return NotFound();
@@ -59,14 +62,15 @@ namespace IoT_Core.Controllers
             };
 
             // save sensor values
-            await _dataRepo.AddValuesAsync(sensors);
+            await _sensorRepository.AddSensorValuesAsync(sensors);
 
             var wateringResult = _wateringService.CalculateMilliseconds(sensors);
 
+            // TODO move to Watering Controller
             if (wateringResult.Milliseconds > 0)
             {
                 var watering = new WateringValue(sensors, wateringResult.Milliseconds);
-                await _dataRepo.AddWateringAsync(watering);
+                await _wateringRepository.AddWateringAsync(watering);
             }
 
             return CreatedAtAction("Get", new { id = sensors.Id }, wateringResult);
