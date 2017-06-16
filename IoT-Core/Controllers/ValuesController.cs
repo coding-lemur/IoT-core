@@ -66,7 +66,7 @@ namespace IoT_Core.Controllers
             if (wateringResult.Milliseconds > 0)
             {
                 var watering = new WateringValue(sensors, wateringResult.Milliseconds);
-                _dataRepo.AddWateringAsync(watering);
+                await _dataRepo.AddWateringAsync(watering);
             }
 
             return CreatedAtAction("Get", new { id = sensors.Id }, wateringResult);
