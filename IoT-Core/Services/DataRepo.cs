@@ -22,12 +22,11 @@ namespace IoT_Core.Services
             _database = _client.GetDatabase(appSettings.MongoDbDatabaseName);
         }
 
-        public async Task<SensorValues> AddValuesAsync(SensorValues sensorValues)
+        public async Task<SensorValues> AddValuesAsync(SensorValues sensors)
         {
             var sensorsCollection = _database.GetCollection<SensorValues>("sensors");
-            await sensorsCollection.InsertOneAsync(sensorValues);
-
-            return sensorValues;
+            await sensorsCollection.InsertOneAsync(sensors);
+            return sensors;
         }
 
         public async Task<SensorValues> GetValueByIdAsync(String id)
@@ -45,6 +44,21 @@ namespace IoT_Core.Services
         {
             var sensorsCollection = _database.GetCollection<SensorValues>("sensors");
             return await sensorsCollection.Find(new BsonDocument())
+                .Limit(100)
+                .ToListAsync();
+        }
+
+        public async Task<WateringValue> AddWateringAsync(WateringValue watering)
+        {
+            var wateringCollection = _database.GetCollection<WateringValue>("watering");
+            await wateringCollection.InsertOneAsync(watering);
+            return watering;
+        }
+
+        public async Task<IEnumerable<WateringValue>> GetWaterings()
+        {
+            var wateringCollection = _database.GetCollection<WateringValue>("watering");
+            return await wateringCollection.Find(new BsonDocument())
                 .Limit(100)
                 .ToListAsync();
         }
