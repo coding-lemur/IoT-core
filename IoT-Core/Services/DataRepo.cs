@@ -58,6 +58,17 @@ namespace IoT_Core.Services
             return watering;
         }
 
+        public async Task<WateringValue> GetWateringByIdAsync(string id)
+        {
+            var wateringCollection = _database.GetCollection<WateringValue>("watering");
+
+            var objectId = new ObjectId(id);
+            var filter = Builders<WateringValue>.Filter.Eq(wv => wv.Id, objectId);
+
+            return await wateringCollection.Find(filter)
+                .FirstAsync<WateringValue>();
+        }
+
         public async Task<IEnumerable<WateringValue>> GetWaterings()
         {
             var wateringCollection = _database.GetCollection<WateringValue>("watering");
