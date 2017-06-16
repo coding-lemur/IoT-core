@@ -22,7 +22,7 @@ namespace IoT_Core.Migrations
 
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("datetime('now','localtime')");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<float>("Humidity");
 
@@ -42,7 +42,7 @@ namespace IoT_Core.Migrations
 
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("datetime('now','localtime')");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<int>("Milliseconds");
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IoT_Core.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class testMySql : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,9 @@ namespace IoT_Core.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Date = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')"),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
+                    Date = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Humidity = table.Column<float>(nullable: false),
                     SoilMoisture = table.Column<int>(nullable: false),
                     Temperature = table.Column<float>(nullable: false)
@@ -29,8 +30,9 @@ namespace IoT_Core.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Date = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')"),
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
+                    Date = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                        .Annotation("MySql:ValueGeneratedOnAdd", true),
                     Milliseconds = table.Column<int>(nullable: false),
                     SensorsId = table.Column<int>(nullable: true)
                 },
