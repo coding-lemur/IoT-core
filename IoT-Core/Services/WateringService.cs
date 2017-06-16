@@ -8,13 +8,6 @@ namespace IoT_Core.Services
 {
     public class WateringService: IWateringService
     {
-        private IDataRepo _dataRepo;
-
-        public WateringService(IDataRepo dataRepo)
-        {
-            _dataRepo = dataRepo;
-        }
-
         public WateringResult CalculateMilliseconds(SensorValues sensors)
         {
             var wateringResult = new WateringResult();
