@@ -11,5 +11,8 @@ namespace IoT_Core.Models
         public String MongoDbDatabaseName { get; set; }
 
         public int ListLimit { get; set; }
+
+        public int MinSoilMoisture { get; set; }
+        public int WateringMilliseconds { get; set; }
     }
 }
